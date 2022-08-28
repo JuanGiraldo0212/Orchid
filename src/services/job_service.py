@@ -1,5 +1,9 @@
 import uuid
+
+import bson
+
 from ..constants import *
+from ..database import mongodb_helper
 
 
 def input_validation_service(sequence):
@@ -9,11 +13,21 @@ def input_validation_service(sequence):
 
 def create_job_service(data, metadata, priority):
     job = {
-        'id': uuid.uuid4(),
+        '_id': uuid.uuid4(),
         'status': JOB_STATUS[0],
         'data': data,
         'metadata': metadata,
         'priority': priority
     }
+    return mongodb_helper.insert_job(job)
 
-    return job["id"]
+
+def get_job_status_service(job_id):
+    job = mongodb_helper.retrieve_job(job_id)
+    response = None
+    if job:
+        response = {
+            "id": job_id,
+            "status": job["status"]
+        }
+    return response
