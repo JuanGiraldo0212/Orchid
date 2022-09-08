@@ -1,9 +1,8 @@
 import uuid
 
-import bson
-
 from ..constants import *
 from ..database import mongodb_helper
+from ..solver import job_manager
 
 
 def input_validation_service(sequence):
@@ -19,6 +18,7 @@ def create_job_service(data, metadata, priority):
         'metadata': metadata,
         'priority': priority
     }
+    job_manager.insert_job(job)
     return mongodb_helper.insert_job(job)
 
 
