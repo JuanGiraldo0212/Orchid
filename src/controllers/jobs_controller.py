@@ -1,5 +1,4 @@
 import json
-from dataclasses import asdict
 
 from flask import Blueprint, request, Response, jsonify
 from ..services.job_service import *
